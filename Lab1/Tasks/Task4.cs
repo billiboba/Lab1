@@ -1,32 +1,31 @@
-﻿using System.Globalization;
+﻿using ClosedXML.Excel;
+using System.Globalization;
 using System.Text.RegularExpressions;
 
 class Task4
 {
-    public static List<double> ReadCsvFile(string filePath)
+    public static List<double> ReadExcelFile(string filePath)
     {
         List<double> data = new();
 
         try
         {
-            using StreamReader reader = new StreamReader(filePath);
-            string line;
-            bool isFirstRow = true;
-            Regex regex = new Regex(@"\d+([.,]\d+)?");
+            // Открываем Excel-файл с помощью библиотеки ClosedXML
+            using var workbook = new XLWorkbook(filePath);
+            var worksheet = workbook.Worksheet(1); // Открываем первый лист
 
-            while ((line = reader.ReadLine()) != null)
+            // Перебираем все строки на листе
+            foreach (var row in worksheet.RowsUsed())
             {
-                if (isFirstRow)
-                {
-                    isFirstRow = false;
-                    continue;
-                }
-                MatchCollection matches = regex.Matches(line);
+                // Пропускаем первую строку, если это заголовок
+                if (row.RowNumber() == 1) continue;
 
-                foreach (Match match in matches)
+                foreach (var cell in row.CellsUsed())
                 {
-                    string value = match.Value.Replace(",", ".");
+                    // Преобразуем значение ячейки в строку
+                    string value = cell.GetString().Replace(",", ".");
 
+                    // Пробуем преобразовать значение в double
                     if (double.TryParse(value, NumberStyles.Any, CultureInfo.InvariantCulture, out double result))
                     {
                         data.Add(result);
@@ -36,11 +35,41 @@ class Task4
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Ошибка при чтении файла: {ex.Message}");
+            Console.WriteLine($"Ошибка при чтении Excel файла: {ex.Message}");
         }
 
         return data;
     }
+
+    // Метод для записи данных в CSV формат
+    public static void ConvertToCsv(string excelFilePath, string csvFilePath)
+    {
+        try
+        {
+            List<double> data = ReadExcelFile(excelFilePath);
+
+            if (data.Count > 0)
+            {
+                using StreamWriter writer = new StreamWriter(csvFilePath);
+
+                foreach (double value in data)
+                {
+                    writer.WriteLine(value.ToString(CultureInfo.InvariantCulture));
+                }
+
+                Console.WriteLine("Файл успешно сконвертирован в CSV.");
+            }
+            else
+            {
+                Console.WriteLine("Нет данных для записи в CSV.");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Ошибка при конвертации в CSV: {ex.Message}");
+        }
+    }
+
     public static double CalculateCorrectedVariance(List<double> data)
     {
         double mean = data.Average();

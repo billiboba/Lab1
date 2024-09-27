@@ -5,35 +5,52 @@ class Program
 {
     static void Main()
     {
+        bool running = true;
+
         do
         {
-            Console.WriteLine("Введите название задания: ");
+            
+            Console.WriteLine("\nTask1 - 1\nTask2 - 2\nTask3 - 3\nTask4 - 4\nEnd - чтобы закончить");
+            Console.Write("\nВведите название задания: ");
             string task = Console.ReadLine();
-            Console.WriteLine("END чтобы закончить");
-            switch (task)
+
+            switch (task.ToLower())
             {
-                case "Task1":
+                case "1":
                     double degree = Task1.GetValidDoubleInput("Введите градусы: ");
-                    string scale = Task1.GetValidScaleInput("Введите шкалу(C,K,F): ");
-                    string scale_second = Task1.GetValidScaleInput("Введите шкалу2(C,K,F): ");
+                    string scale = Task1.GetValidScaleInput("Введите шкалу (C,K,F): ");
+                    string scale_second = Task1.GetValidScaleInput("Введите шкалу 2 (C,K,F): ");
 
                     Console.WriteLine(Task1.Convertor(degree, scale, scale_second));
                     break;
-                case "Task2":
+                case "2":
                     Console.WriteLine("Введите слово: ");
                     string word = Console.ReadLine();
                     bool res = Task2.Polindrom(word);
                     Console.WriteLine(res);
                     break;
-                case "Task3":
-                    Console.WriteLine("Введите количество месяцев: ");
-                    int month = int.Parse(Console.ReadLine());
+                case "3":
+                    int month = 0;
+                    bool isValidInput = false;
+                    while (!isValidInput)
+                    {
+                        Console.WriteLine("Введите количество месяцев (число): ");
+                        string input = Console.ReadLine();
+                        if (int.TryParse(input, out month) && month >= 0)
+                        {
+                            isValidInput = true;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Ошибка: введите число");
+                        }
+                    }
                     Console.WriteLine(Task3.CountOfRabbits(month));
                     break;
-                case "Task4":
-                    string filePath = @"C:\Users\info\Desktop\Popul_1897+.csv";
+                case "4":
+                    string filePath = @"C:\Users\Roman\Desktop\Popul_1897+.xlsx";
 
-                    List<double> data = Task4.ReadCsvFile(filePath);
+                    List<double> data = Task4.ReadExcelFile(filePath);
 
                     if (data.Count == 0)
                     {
@@ -47,6 +64,7 @@ class Program
                     Console.WriteLine("d. Исправленная выборочная дисперсия");
 
                     string choice = Console.ReadLine();
+
                     switch (choice)
                     {
                         case "a":
@@ -70,8 +88,15 @@ class Program
                             break;
                     }
                     break;
+                case "end":  // Условие для завершения программы
+                    running = false;
+                    break;
+                default:
+                    Console.WriteLine("Неверный ввод. Попробуйте снова.");
+                    break;
             }
         }
-        while (true);
+        while (running);
+
     }
 }

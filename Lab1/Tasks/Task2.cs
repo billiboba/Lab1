@@ -4,7 +4,8 @@
     {
         public static bool Polindrom(string word)
         {
-            string word_polindrom = new string(word.Reverse().ToArray());
+            word = word.ToLower();
+            string word_polindrom = new(word.Reverse().ToArray());
             bool isPalindrome = word == word_polindrom;
             return isPalindrome;
         }
