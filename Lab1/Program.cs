@@ -9,7 +9,6 @@ class Program
 
         do
         {
-            
             Console.WriteLine("\nTask1 - 1\nTask2 - 2\nTask3 - 3\nTask4 - 4\nEnd - чтобы закончить");
             Console.Write("\nВведите название задания: ");
             string task = Console.ReadLine();
