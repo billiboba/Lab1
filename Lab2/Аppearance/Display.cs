@@ -23,7 +23,17 @@ namespace Lab2.Аppearance
 
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("Пойти на работу - 1 \nСозерцать природу - 2 \nПить вино и смотреть сериал - 3 \nСходить в бар - 4" +
-                "\nВыпить с маргиналами - 5 \nПеть в метро - 6 \nСпать - 7 \nПросмотреть параметры - 8 \nЗакончить - 9");
+                "\nВыпить с маргиналами - 5 \nПеть в метро - 6 \nСпать - 7 \nВернуться назад - 8");
+        }
+        public static void ViewMenu()
+        {
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Clear();
+            Centre("1. Просмотреть параметры Валеры");
+            Centre("2. Выполнить событие");
+            Centre("3. Сохранить состояние");
+            Centre("4. Создать нового персонажа");
+            Centre("5. Выйти из игры");
         }
     }
 }
