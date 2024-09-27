@@ -6,7 +6,20 @@ namespace Lab2.PossibleActions
     {
         public void PerformAction(Valera valera)
         {
-            if (valera.Mana < 50 & valera.Fatigue < 10)
+            bool ok = true;
+            if (valera.Mood - 5 < 10)
+            {
+                Console.WriteLine("Настроение будет отрицательное!");
+            }
+            else if (valera.Mana > 50)
+            {
+                Console.WriteLine("Я пьяный!");
+            }
+            else if (valera.Fatigue > 10)
+            {
+                Console.WriteLine("Я устал, надо отдохнуть!");
+            }
+            if (ok == true & valera.Mana < 50 & valera.Fatigue < 10)
             {
                 valera.Mood -= 5;
                 valera.Mana -= 30;
@@ -15,16 +28,7 @@ namespace Lab2.PossibleActions
                 Console.Clear();
                 Console.WriteLine($"Валера пошел на работу!");
             }
-            else if (valera.Mana > 50)
-            {
-                Console.Clear();
-                Console.WriteLine("Я пьяный!");
-            }
-            else if(valera.Fatigue > 10) 
-            {
-                Console.Clear();
-                Console.WriteLine("Я устал!");
-            }
+            
         }
     }
 }

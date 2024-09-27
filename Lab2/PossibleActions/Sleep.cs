@@ -11,16 +11,22 @@ namespace Lab2.PossibleActions
     {
         public void PerformAction(Valera valera)
         {
-            if (valera.Mana < 30)
+            bool ok = true;
+            if(ok == true) 
             {
-                valera.Health += 90;
+                if (valera.Mana < 30)
+                {
+                    valera.Health += 90;
+                }
+                if (valera.Mana > 70)
+                {
+                    valera.Mood -= 3;
+                }
+                valera.Mana -= 50;
+                valera.Fatigue -= 70;
+                Console.WriteLine("Ты выспался!");
             }
-            if(valera.Mana > 70)
-            {
-                valera.Mood -= 3;
-            }
-            valera.Mana -= 50;
-            valera.Fatigue -= 70;
+            
         }
     }
 }

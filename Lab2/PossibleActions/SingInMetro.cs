@@ -11,14 +11,28 @@ namespace Lab2.PossibleActions
     {
         public void PerformAction(Valera valera)
         {
-            valera.Mood += 1;
-            valera.Mana += 10;
-            valera.Money += 10;
-            if ((valera.Mana < 40) || (valera.Mana > 70))
+            bool ok = true;
+            if (valera.Mood + 1 > 10)
             {
-                valera.Money += 60;
+                Console.WriteLine("Будет максимальное настроение!");
             }
-            valera.Fatigue += 20;
+            else if (valera.Mana + 10 > 100)
+            {
+                Console.WriteLine("Нельзя идти петь в метро, будешь слишком пьян!");
+            }
+            else if(ok == true)
+            {
+                valera.Mood += 1;
+                valera.Mana += 10;
+                valera.Money += 10;
+                if ((valera.Mana < 40) || (valera.Mana > 70))
+                {
+                    valera.Money += 50;
+                }
+                valera.Fatigue += 20;
+                Console.WriteLine("Ты спел в метро!");
+            }
+            
         }
     }
 }
