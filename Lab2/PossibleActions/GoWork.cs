@@ -6,8 +6,16 @@ namespace Lab2.PossibleActions
     {
         public void PerformAction(Valera valera)
         {
+            string filePath = @"D:\\VisualProects\\Lab1\\Lab2\\PossibleActions\\JsonParametresForActions\\ParametresForActions.json";
+            LoadAction loadParameters = new LoadAction();
+            ActionParameters parameters = loadParameters.LoadActionParameters(filePath, "GoWork");
+            if (parameters == null)
+            {
+                Console.WriteLine("Не удалось загрузить параметры для GoWork.");
+                return;
+            }
             bool ok = true;
-            if (valera.Mood - 5 < 10)
+            if (valera.Mood - parameters.MoodChange < valera.MinMood)
             {
                 Console.WriteLine("Настроение будет отрицательное!");
             }
@@ -19,16 +27,16 @@ namespace Lab2.PossibleActions
             {
                 Console.WriteLine("Я устал, надо отдохнуть!");
             }
-            if (ok == true & valera.Mana < 50 & valera.Fatigue < 10)
+            if (valera.Mana < 50 & valera.Fatigue < 10 & ok == true)
             {
-                valera.Mood -= 5;
-                valera.Mana -= 30;
-                valera.Money += 100;
-                valera.Fatigue += 70;
+                
+                valera.Mood -= parameters.MoodChange;
+                valera.Mana -= parameters.ManaChange;
+                valera.Money += parameters.MoneyChange;
+                valera.Fatigue += parameters.FatigueChange;
                 Console.Clear();
                 Console.WriteLine($"Валера пошел на работу!");
             }
-            
         }
     }
 }

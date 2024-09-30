@@ -4,39 +4,47 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Lab2.Models;
-
 namespace Lab2.PossibleActions
 {
     public class ChillHouse : IAction
     {
         public void PerformAction(Valera valera)
         {
+            string filePath = @"D:\\VisualProects\\Lab1\\Lab2\\PossibleActions\\JsonParametresForActions\\ParametresForActions.json";
+            LoadAction loadParameters = new LoadAction();
+            ActionParameters parameters = loadParameters.LoadActionParameters(filePath, "ChillHouse");
+            if (parameters == null)
+            {
+                Console.WriteLine("Не удалось загрузить параметры для ChillHouse.");
+                return;
+            }
             bool ok = true;
-            if (valera.Mood - 1 < 10)
+            if (valera.Mood + parameters.MoodChange < valera.MinMood)
             {
                 Console.WriteLine("Нельзя идти пить вино и смотреть сериал, будет отрицательное настроение!");
             }
-            else if (valera.Mana + 30 > 100)
+            else if (valera.Mana + parameters.ManaChange > valera.MaxMana)
             {
                 Console.WriteLine("Нельзя идти пить вино и смотреть сериал, будешь слишком пьян!");
             }
-            else if (valera.Health - 5 < 0)
+            else if (valera.Health + parameters.HealthChange < valera.MinHealth)
             {
                 Console.WriteLine("Нельзя идти пить вино и смотреть сериал, будет отрицательное здоровье!");
             }
-            else if (valera.Money - 20 < 0)
+            else if (valera.Money + parameters.MoneyChange < 0)
             {
                 Console.WriteLine("Нельзя идти пить вино и смотреть сериал, у тебя не будет денег!");
             }
-            else if(ok == true) 
+            else if (ok == true)
             {
-                valera.Mood -= 1;
-                valera.Mana += 30;
-                valera.Fatigue -= 10;
-                valera.Health -= 5;
-                valera.Money -= 20;
+                valera.Mood += parameters.MoodChange;
+                valera.Mana += parameters.ManaChange;
+                valera.Fatigue += parameters.FatigueChange;
+                valera.Health += parameters.HealthChange;
+                valera.Money += parameters.MoneyChange;
+
                 Console.WriteLine("Валера пьёт вино и смотрит сериал!");
-            }   
+            }
         }
     }
 }

@@ -1,0 +1,47 @@
+{
+  "ChillHouse": {
+    "MoodChange": 0,
+    "ManaChange": 0,
+    "FatigueChange": 0,
+    "HealthChange": -5,
+    "MoneyChange": -20
+  },
+  "DrinkWithMarginals": {
+    "MoodChange": -2,
+    "ManaChange": -10,
+    "FatigueChange": 20,
+    "HealthChange": -10,
+    "MoneyChange": 100
+  },
+  "GoBar": {
+    "MoodChange": 3,
+    "ManaChange": -20,
+    "FatigueChange": 10,
+    "HealthChange": -15,
+    "MoneyChange": -50
+  },
+  "GoWork": {
+    "MoodChange": -2,
+    "ManaChange": -10,
+    "MoneyChange": 70,
+    "FatigueChange": 20
+  },
+  "LookNature": {
+    "MoodChange": -2,
+    "ManaChange": -10,
+    "FatigueChange": 20
+  },
+  "SingInMetro": {
+    "MoodChange": 2,
+    "ManaChange": 0,
+    "FatigueChange": 5,
+    "HealthChange": 0,
+    "MoneyChange": 30
+  },
+  "Sleep": {
+    "MoodChange": -2,
+    "ManaChange": -10,
+    "FatigueChange": 20,
+    "HealthChange": -10
+  }
+}

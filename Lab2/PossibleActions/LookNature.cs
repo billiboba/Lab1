@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Lab2.Models;
+﻿using Lab2.Models;
 
 namespace Lab2.PossibleActions
 {
@@ -11,24 +6,24 @@ namespace Lab2.PossibleActions
     {
         public void PerformAction(Valera valera)
         {
+            string filePath = @"D:\\VisualProects\\Lab1\\Lab2\\PossibleActions\\JsonParametresForActions\\ParametresForActions.json";
+            LoadAction loadParameters = new LoadAction();
+            ActionParameters parameters = loadParameters.LoadActionParameters(filePath, "LookNature");
+            if (parameters == null)
+            {
+                Console.WriteLine("Не удалось загрузить параметры для LookNature.");
+                return;
+            }
             bool ok = true;
-            if(valera.Mood + 1 > 10)
-            {
-                Console.WriteLine("Настроение максимальное!");
-            }
-            else if (valera.Mana - 10 < 0)
-            {
-                Console.WriteLine("Ты протрезвел!");
-            }
-            else if (valera.Fatigue + 10 > 100)
+            if (valera.Fatigue + parameters.FatigueChange > valera.MaxFatigue)
             {
                 Console.WriteLine("Усталость максимальная, отдохни!");
             }
             else if (ok == true)
             {
-                valera.Mood += 1;
-                valera.Mana -= 10;
-                valera.Fatigue += 10;
+                valera.Mood += parameters.MoodChange;
+                valera.Mana -= parameters.ManaChange;
+                valera.Fatigue += parameters.FatigueChange;
                 Console.WriteLine("Валера пошёл созерцать природу!");
             }
             

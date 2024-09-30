@@ -7,9 +7,17 @@ public class Program
 {
     public static void Main()
     {
-        string filePath = "C:\\Users\\Roman\\Desktop\\valera_state.json";
+        string filePath = @"D:\\VisualProects\\Lab1\\Lab2\\Models\\ParametersValera\\Valera_Par.json";
 
         Valera valera = Valera.LoadFromFile(filePath);
+        if (valera == null)
+        {
+            Console.WriteLine($"Здоровье: {valera.Health}");
+            Console.WriteLine($"Мана: {valera.Mana}");
+            Console.WriteLine($"Жизнерадостность: {valera.Mood}");
+            Console.WriteLine($"Усталость: {valera.Fatigue}");
+            Console.WriteLine($"Деньги: {valera.Money}");
+        }
         IAction goWork = new GoWork();
         IAction lookNature = new LookNature();
         IAction chillHouse = new ChillHouse();
@@ -35,7 +43,6 @@ public class Program
                     bool runningTask2 = true;
                     do
                     {
-                        Console.Clear();
                         Display.ViewTasks();
                         string input2 = Console.ReadLine();
                         switch (input2)
@@ -90,4 +97,3 @@ public class Program
         while (running);
     }
 }
-//C:\Users\Roman\Desktop

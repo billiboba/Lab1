@@ -11,19 +11,27 @@ namespace Lab2.PossibleActions
     {
         public void PerformAction(Valera valera)
         {
+            string filePath = @"D:\\VisualProects\\Lab1\\Lab2\\PossibleActions\\JsonParametresForActions\\ParametresForActions.json";
+            LoadAction loadParameters = new LoadAction();
+            ActionParameters parameters = loadParameters.LoadActionParameters(filePath, "Sleep");
+            if (parameters == null)
+            {
+                Console.WriteLine("Не удалось загрузить параметры для Sleep.");
+                return;
+            }
             bool ok = true;
             if(ok == true) 
             {
                 if (valera.Mana < 30)
                 {
-                    valera.Health += 90;
+                    valera.Health += parameters.HealthChange;
                 }
                 if (valera.Mana > 70)
                 {
-                    valera.Mood -= 3;
+                    valera.Mood -= parameters.MoodChange;
                 }
-                valera.Mana -= 50;
-                valera.Fatigue -= 70;
+                valera.Mana -= parameters.ManaChange;
+                valera.Fatigue -= parameters.FatigueChange;
                 Console.WriteLine("Ты выспался!");
             }
             

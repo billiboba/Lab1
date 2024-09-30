@@ -11,28 +11,31 @@ namespace Lab2.PossibleActions
     {
         public void PerformAction(Valera valera)
         {
-            bool ok = true;
-            if (valera.Mood + 1 > 10)
+            string filePath = @"D:\\VisualProects\\Lab1\\Lab2\\PossibleActions\\JsonParametresForActions\\ParametresForActions.json";
+            LoadAction loadParameters = new LoadAction();
+            ActionParameters parameters = loadParameters.LoadActionParameters(filePath, "SignInMetro");
+            if (parameters == null)
             {
-                Console.WriteLine("Будет максимальное настроение!");
+                Console.WriteLine("Не удалось загрузить параметры для SignInMetro.");
+                return;
             }
-            else if (valera.Mana + 10 > 100)
+            bool ok = true;
+            if (valera.Mana + parameters.ManaChange > valera.MaxMana)
             {
                 Console.WriteLine("Нельзя идти петь в метро, будешь слишком пьян!");
             }
             else if(ok == true)
             {
-                valera.Mood += 1;
-                valera.Mana += 10;
-                valera.Money += 10;
+                valera.Mood += parameters.MoodChange;
+                valera.Mana += parameters.ManaChange;
+                valera.Money += parameters.MoneyChange;
                 if ((valera.Mana < 40) || (valera.Mana > 70))
                 {
-                    valera.Money += 50;
+                    valera.Money += parameters.MoneyChange;
                 }
-                valera.Fatigue += 20;
+                valera.Fatigue += parameters.FatigueChange;
                 Console.WriteLine("Ты спел в метро!");
             }
-            
         }
     }
 }

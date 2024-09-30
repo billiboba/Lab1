@@ -14,89 +14,46 @@ namespace Lab2.Models
         private int mana;
         private int mood;
         private int fatigue;
+        // Границы для параметров
+        public int MinHealth { get; set; }
+        public int MaxHealth { get; set; }
+        public int MinMana { get; set; }
+        public int MaxMana { get; set; }
+        public int MinMood { get; set; }
+        public int MaxMood { get; set; }
+        public int MinFatigue { get; set; }
+        public int MaxFatigue { get; set; }
 
-        public int Health
-        {
-            get { return health; }
-            set
-            {
-                if (value < 0)
-                    health = 0;
-                else if (value >= 100)
-                    health = 100;
-                else
-                    health = value;
-            }
-        }
-
-        public int Mana
-        {
-            get { return mana; }
-            set
-            {
-                if (value <= 0)
-                    mana = 0;
-                else if (value >= 100)
-                    mana = 100;
-                else
-                    mana = value;
-            }
-        }
-
-        public int Mood
-        {
-            get { return mood; }
-            set
-            {
-                if (value <= -10)
-                    mood = -10;
-                else if (value >= 10)
-                    mood = 10;
-                else
-                    mood = value;
-            }
-        }
-
-        public int Fatigue
-        {
-            get { return fatigue; }
-            set
-            {
-                if (value <= 0) fatigue = 0;
-                else if (value >= 100) fatigue = 100;
-                else fatigue = value;
-            }
-        }
+        // Параметры Валеры
+        public int Health { get; set; }
+        public int Mana { get; set; }
+        public int Mood { get; set; }
+        public int Fatigue { get; set; }
         public double Money { get; set; }
 
+        public void Validate()
+        {
+            Health = Math.Clamp(Health, MinHealth, MaxHealth);
+            Mana = Math.Clamp(Mana, MinMana, MaxMana);
+            Mood = Math.Clamp(Mood, MinMood, MaxMood);
+            Fatigue = Math.Clamp(Fatigue, MinFatigue, MaxFatigue);
+        }
         public Valera()
         {
-            Health = 100;
-            Mana = 0;
-            Mood = 0;
-            Fatigue = 0;
-            Money = 150;
         }
 
         public void ViewParametres()
         {
             Console.ForegroundColor = ConsoleColor.Green;
-            string welcome = "Добро пожаловать! Ты маргинал Валера!";
-            Display.Centre(welcome);
+            Display.Centre("Добро пожаловать! Ты маргинал Валера!");
             Console.WriteLine();
             Console.ForegroundColor = ConsoleColor.Red;
-            string parametrs = "Твои параметры:";
-            Display.Centre(parametrs);
-            string parametrs2 = $"Здоровье - {Health}";
-            Display.Centre(parametrs2);
-            string parametrs3 = $"Мана - {Mana}";
-            Display.Centre(parametrs3);
-            string parametrs4 = $"Жизнерадостность - {Mood}";
-            Display.Centre(parametrs4);
-            string parametrs5 = $"Усталость - {Fatigue}";
-            Display.Centre(parametrs5);
-            string parametrs6 = $"Деньги - {Money}";
-            Display.Centre(parametrs6);
+            Display.Centre("Твои параметры:");
+            Display.Centre($"Здоровье - {Health}");
+            Display.Centre($"Мана - {Mana}");
+            Display.Centre($"Жизнерадостность - {Mood}");
+            Display.Centre($"Усталость - {Fatigue}");
+            Display.Centre($"Деньги - {Money}");
             Console.WriteLine("Нажмите пробел, чтобы продолжить...");
             Console.ReadKey();
         }
@@ -111,8 +68,12 @@ namespace Lab2.Models
             if (File.Exists(filePath))
             {
                 string json = File.ReadAllText(filePath);
-                Console.WriteLine("Состояние Валеры загружено.");
-                return JsonSerializer.Deserialize<Valera>(json);
+                Valera valera = JsonSerializer.Deserialize<Valera>(json);
+
+                valera.Validate();
+
+                Console.WriteLine("Состояние Валеры загружено из файла.");
+                return valera;
             }
             else
             {

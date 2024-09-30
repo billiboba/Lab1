@@ -11,33 +11,37 @@ namespace Lab2.PossibleActions
     {
         public void PerformAction(Valera valera)
         {
-            bool ok = true;
-            if (valera.Mood + 1 > 10)
+            string filePath = @"D:\\VisualProects\\Lab1\\Lab2\\PossibleActions\\JsonParametresForActions\\ParametresForActions.json";
+            LoadAction loadParameters = new LoadAction();
+            ActionParameters parameters = loadParameters.LoadActionParameters(filePath, "GoBar");
+            if (parameters == null)
             {
-                Console.WriteLine("Будет максимальное настроение!");
+                Console.WriteLine("Не удалось загрузить параметры для GoBar.");
+                return;
             }
-            else if (valera.Mana + 60 > 100)
+            bool ok = true;
+            if (valera.Mana + parameters.ManaChange > valera.MaxMana)
             {
                 Console.WriteLine("Нельзя идти в бар, будешь слишком пьян!");
             }
-            else if (valera.Fatigue + 40 > 100)
+            else if (valera.Fatigue + parameters.FatigueChange > valera.MaxFatigue)
             {
                 Console.WriteLine("Я устал, надо отдохнуть!");
             }
-            else if (valera.Health - 10 < 0)
+            else if (valera.Health - parameters.HealthChange < valera.MinHealth)
             {
                 Console.WriteLine("Нельзя идти в бар, будет отрицательное здоровье!");
             }
-            else if (valera.Money - 100 < 0)
+            else if (valera.Money - parameters.MoneyChange < 0)
             {
                 Console.WriteLine("Нельзя идти в бар, у тебя не будет денег!");
             }
             else if(ok == true) {
-                valera.Mood += 1;
-                valera.Mana += 60;
-                valera.Fatigue += 40;
-                valera.Health -= 10;
-                valera.Money -= 100;
+                valera.Mood += parameters.MoodChange;
+                valera.Mana += parameters.ManaChange;
+                valera.Fatigue += parameters.FatigueChange;
+                valera.Health -= parameters.HealthChange;
+                valera.Money -= parameters.MoneyChange;
                 Console.WriteLine("Я сходил в бар!");
             }
         }

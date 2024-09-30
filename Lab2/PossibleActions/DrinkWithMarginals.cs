@@ -11,34 +11,38 @@ namespace Lab2.PossibleActions
     {
         public void PerformAction(Valera valera)
         {
-            bool ok = true;
-            if (valera.Mood + 5 > 10)
+            string filePath = @"D:\\VisualProects\\Lab1\\Lab2\\PossibleActions\\JsonParametresForActions\\ParametresForActions.json";
+            LoadAction loadParameters = new LoadAction();
+            ActionParameters parameters = loadParameters.LoadActionParameters(filePath, "DrinkWithMarginals");
+            if (parameters == null)
             {
-                Console.WriteLine("Настроение выше некуда!");
+                Console.WriteLine("Не удалось загрузить параметры для DrinkWithMarginals.");
+                return;
             }
-            else if (valera.Health - 80 < 0)
+            bool ok = true;
+            if (valera.Health - parameters.HealthChange < valera.MinHealth)
             {
                 Console.WriteLine("Нельзя идти пить с маргиналами, будет отрицательное здоровье!");
             }
-            else if (valera.Mana + 90 > 100)
+            else if (valera.Mana + parameters.ManaChange > valera.MaxMana)
             {
                 Console.WriteLine("Нельзя идти пить с маргиналами, будешь слишком пьян!");
             }
-            else if (valera.Fatigue + 80 > 100)
+            else if (valera.Fatigue + parameters.FatigueChange > valera.MaxFatigue)
             {
                 Console.WriteLine("Нельзя идти пить с маргиналами, будет сильная усталость!");
             }
-            else if (valera.Money - 150 < 0)
+            else if (valera.Money - parameters.MoneyChange < 0)
             {
                 Console.WriteLine("Нельзя идти пить с маргиналами, у тебя не будет денег!");
             }
             else if (ok == true)
             {
-                valera.Mood += 5;
-                valera.Health -= 80;
-                valera.Mana += 90;
-                valera.Fatigue += 80;
-                valera.Money -= 150;
+                valera.Mood += parameters.MoodChange;
+                valera.Health -= parameters.HealthChange;
+                valera.Mana += parameters.ManaChange;
+                valera.Fatigue += parameters.FatigueChange;
+                valera.Money -= parameters.MoneyChange;
                 Console.WriteLine("Я выпил с маргиналами!");
             }
             
