@@ -10,7 +10,7 @@ public class Program
         string filePath = @"D:\\VisualProects\\Lab1\\Lab2\\Models\\ParametersValera\\Valera_Par.json";
 
         Valera valera = Valera.LoadFromFile(filePath);
-        if (valera == null)
+        if (valera != null)
         {
             Console.WriteLine($"Здоровье: {valera.Health}");
             Console.WriteLine($"Мана: {valera.Mana}");
@@ -18,6 +18,7 @@ public class Program
             Console.WriteLine($"Усталость: {valera.Fatigue}");
             Console.WriteLine($"Деньги: {valera.Money}");
         }
+
         IAction goWork = new GoWork();
         IAction lookNature = new LookNature();
         IAction chillHouse = new ChillHouse();
@@ -26,74 +27,68 @@ public class Program
         IAction singInMetro = new SingInMetro();
         IAction sleep = new Sleep();
 
+        string[] mainMenuOptions = { "Показать параметры Валеры", "Выполнить событие", "Сохранить Валеру", "Создать нового Валеру", "Загрузить Валеру", "Выйти из игры" };
+        int selectedOption = 0;
+
         bool running = true;
         do
         {
-            Display.ViewMenu();
-            Display.Centre("Введите число, чтобы продолжить...");
-            string input = Console.ReadLine();
-            switch (input)
+            Console.Clear();
+            for (int i = 0; i < mainMenuOptions.Length; i++)
             {
-                case "1":
-                    Console.Clear();
-                    valera.ViewParametres();
-                    Console.Clear();
+                if (i == selectedOption)
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Display.Centre("> " + mainMenuOptions[i]);
+                    Console.ResetColor();
+                }
+                else
+                {
+                    Display.Centre("  " + mainMenuOptions[i]);
+                }
+            }
+            ConsoleKeyInfo keyInfo = Console.ReadKey(true);
+
+            switch (keyInfo.Key)
+            {
+                case ConsoleKey.UpArrow:
+                    if (selectedOption > 0)
+                        selectedOption--;
                     break;
-                case "2":
-                    bool runningTask2 = true;
-                    do
+                case ConsoleKey.DownArrow:
+                    if (selectedOption < mainMenuOptions.Length - 1)
+                        selectedOption++;
+                    break;
+                case ConsoleKey.Enter:
+                    switch (selectedOption)
                     {
-                        Display.ViewTasks();
-                        string input2 = Console.ReadLine();
-                        switch (input2)
-                        {
-                            case "1":
-                                Console.Clear();
-                                goWork.PerformAction(valera);
-                                break;
-                            case "2":
-                                Console.Clear();
-                                lookNature.PerformAction(valera);
-                                break;
-                            case "3":
-                                Console.Clear();
-                                chillHouse.PerformAction(valera);
-                                break;
-                            case "4":
-                                Console.Clear();
-                                goBar.PerformAction(valera);
-                                break;
-                            case "5":
-                                Console.Clear();
-                                drinkWithMarginals.PerformAction(valera);
-                                break;
-                            case "6":
-                                Console.Clear();
-                                singInMetro.PerformAction(valera);
-                                break;
-                            case "7":
-                                Console.Clear();
-                                sleep.PerformAction(valera);
-                                break;
-                            case "8":
-                                runningTask2 = false;
-                                break;
-                        }
-                    } while (runningTask2);
-                    break;
-                case "3":
-                    valera.SaveToFile(filePath);
-                    Console.WriteLine("Персонаж Валера сохранён!");
-                    break;
-                case "4":
-                    valera = new Valera();
-                    Console.WriteLine("Новый персонаж Валера создан!");
-                    break;
-                case "5":
-                    running = false;
+                        case 0:
+                            Console.Clear();
+                            valera.ViewParametres();
+                            Console.ReadKey();
+                            break;
+                        case 1:
+                            Display.ExecuteTaskMenu(valera, goWork, lookNature, chillHouse, goBar, drinkWithMarginals, singInMetro, sleep);
+                            break;
+                        case 2:
+                            valera.SaveToFile(filePath);
+                            Console.WriteLine("Персонаж Валера сохранён!");
+                            Console.ReadKey();
+                            break;
+                        case 3:
+                            valera = new Valera();
+                            Console.WriteLine("Новый персонаж Валера создан!");
+                            Console.ReadKey();
+                            break;
+                        case 4:
+                            Display.SelectAndLoadValera(ref valera);
+                            break;
+                        case 5:
+                            running = false;
+                            break;
+                    }
                     break;
             }
-        }
-        while (running);
+        } while (running);
     }
 }

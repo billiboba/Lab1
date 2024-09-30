@@ -13,10 +13,10 @@ namespace Lab2.PossibleActions
         {
             string filePath = @"D:\\VisualProects\\Lab1\\Lab2\\PossibleActions\\JsonParametresForActions\\ParametresForActions.json";
             LoadAction loadParameters = new LoadAction();
-            ActionParameters parameters = loadParameters.LoadActionParameters(filePath, "SignInMetro");
+            ActionParameters parameters = loadParameters.LoadActionParameters(filePath, "SingInMetro");
             if (parameters == null)
             {
-                Console.WriteLine("Не удалось загрузить параметры для SignInMetro.");
+                Console.WriteLine("Не удалось загрузить параметры для SingInMetro.");
                 return;
             }
             bool ok = true;

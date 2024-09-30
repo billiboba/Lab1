@@ -10,11 +10,6 @@ namespace Lab2.Models
 {
     public class Valera
     {
-        private int health;
-        private int mana;
-        private int mood;
-        private int fatigue;
-        // Границы для параметров
         public int MinHealth { get; set; }
         public int MaxHealth { get; set; }
         public int MinMana { get; set; }
@@ -24,7 +19,6 @@ namespace Lab2.Models
         public int MinFatigue { get; set; }
         public int MaxFatigue { get; set; }
 
-        // Параметры Валеры
         public int Health { get; set; }
         public int Mana { get; set; }
         public int Mood { get; set; }

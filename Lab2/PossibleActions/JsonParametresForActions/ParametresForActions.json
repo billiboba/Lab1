@@ -42,6 +42,6 @@
     "MoodChange": -2,
     "ManaChange": -10,
     "FatigueChange": 20,
-    "HealthChange": -10
+    "HealthChange": 90
   }
 }
