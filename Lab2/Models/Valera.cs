@@ -18,7 +18,7 @@ namespace Lab2.Models
         public int MaxMood { get; set; }
         public int MinFatigue { get; set; }
         public int MaxFatigue { get; set; }
-
+        public int MinMoney { get; set; }
         public int Health { get; set; }
         public int Mana { get; set; }
         public int Mood { get; set; }
@@ -49,6 +49,7 @@ namespace Lab2.Models
             Console.WriteLine("Нажмите пробел, чтобы продолжить...");
             Console.ReadKey();
         }
+
         public void SaveToFile(string filePath)
         {
             string json = JsonSerializer.Serialize(this);
@@ -61,9 +62,7 @@ namespace Lab2.Models
             {
                 string json = File.ReadAllText(filePath);
                 Valera valera = JsonSerializer.Deserialize<Valera>(json);
-
                 valera.Validate();
-
                 Console.WriteLine("Состояние Валеры загружено из файла.");
                 return valera;
             }

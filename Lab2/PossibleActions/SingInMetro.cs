@@ -9,9 +9,8 @@ namespace Lab2.PossibleActions
 {
     public class SingInMetro : IAction
     {
-        public void PerformAction(Valera valera)
+        public void PerformAction(Valera valera, string filePath)
         {
-            string filePath = @"C:\Users\info\source\repos\billiboba\Lab1\Lab2\PossibleActions\JsonParametresForActions\ParametresForActions.json";
             LoadAction loadParameters = new LoadAction();
             ActionParameters parameters = loadParameters.LoadActionParameters(filePath, "SingInMetro");
             if (parameters == null)
@@ -29,11 +28,12 @@ namespace Lab2.PossibleActions
                 valera.Mood += parameters.MoodChange;
                 valera.Mana += parameters.ManaChange;
                 valera.Money += parameters.MoneyChange;
-                if ((valera.Mana < 40) || (valera.Mana > 70))
+                if ((valera.Mana > 40) & (valera.Mana < 70))
                 {
-                    valera.Money += parameters.MoneyChange;
+                    valera.Money += parameters.MoneyChange+50;
                 }
                 valera.Fatigue += parameters.FatigueChange;
+                valera.Validate();
                 Console.WriteLine("Ты спел в метро!");
             }
         }

@@ -8,9 +8,8 @@ namespace Lab2.PossibleActions
 {
     public class ChillHouse : IAction
     {
-        public void PerformAction(Valera valera)
+        public void PerformAction(Valera valera,string filePath)
         {
-            string filePath = @"C:\Users\info\source\repos\billiboba\Lab1\Lab2\PossibleActions\JsonParametresForActions\ParametresForActions.json";
             LoadAction loadParameters = new LoadAction();
             ActionParameters parameters = loadParameters.LoadActionParameters(filePath, "ChillHouse");
             if (parameters == null)
@@ -31,7 +30,7 @@ namespace Lab2.PossibleActions
             {
                 Console.WriteLine("Нельзя идти пить вино и смотреть сериал, будет отрицательное здоровье!");
             }
-            else if (valera.Money + parameters.MoneyChange < 0)
+            else if (valera.Money + parameters.MoneyChange < valera.MinMoney)
             {
                 Console.WriteLine("Нельзя идти пить вино и смотреть сериал, у тебя не будет денег!");
             }
@@ -42,7 +41,7 @@ namespace Lab2.PossibleActions
                 valera.Fatigue += parameters.FatigueChange;
                 valera.Health += parameters.HealthChange;
                 valera.Money += parameters.MoneyChange;
-
+                valera.Validate();
                 Console.WriteLine("Валера пьёт вино и смотрит сериал!");
             }
         }

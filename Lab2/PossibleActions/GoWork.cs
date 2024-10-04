@@ -4,9 +4,8 @@ namespace Lab2.PossibleActions
 {
     public class GoWork : IAction
     {
-        public void PerformAction(Valera valera)
+        public void PerformAction(Valera valera, string filePath)
         {
-            string filePath = @"C:\Users\info\source\repos\billiboba\Lab1\Lab2\PossibleActions\JsonParametresForActions\ParametresForActions.json";
             LoadAction loadParameters = new LoadAction();
             ActionParameters parameters = loadParameters.LoadActionParameters(filePath, "GoWork");
             if (parameters == null)
@@ -29,10 +28,11 @@ namespace Lab2.PossibleActions
             }
             if (valera.Mana < 50 & valera.Fatigue < 10 & ok == true)
             {
-                valera.Mood -= parameters.MoodChange;
-                valera.Mana -= parameters.ManaChange;
+                valera.Mood += parameters.MoodChange;
+                valera.Mana += parameters.ManaChange;
                 valera.Money += parameters.MoneyChange;
                 valera.Fatigue += parameters.FatigueChange;
+                valera.Validate();
                 Console.Clear();
                 Console.WriteLine($"Валера пошел на работу!");
             }

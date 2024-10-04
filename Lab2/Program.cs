@@ -7,7 +7,7 @@ public class Program
 {
     public static void Main()
     {
-        string filePath = @"C:\Users\info\source\repos\billiboba\Lab1\Lab2\Models\ParametersValera\Valera_Par.json";
+        string filePath = @"C:\Users\info\source\repos\billiboba\Lab1\Lab2\Models\ParametersValera\BaseParametresValera.json";
 
         Valera valera = Valera.LoadFromFile(filePath);
         if (valera != null)
@@ -27,7 +27,7 @@ public class Program
         IAction singInMetro = new SingInMetro();
         IAction sleep = new Sleep();
 
-        string[] mainMenuOptions = { "Показать параметры Валеры", "Выполнить событие", "Сохранить Валеру", "Создать нового Валеру", "Загрузить Валеру", "Выйти из игры" };
+        string[] mainMenuOptions = { "Показать параметры Валеры", "Выполнить событие", "Сохранить Валеру", "Создать нового Валеру", "Загрузить Валеру", "Выйти из игры"};
         int selectedOption = 0;
 
         bool running = true;
@@ -68,15 +68,19 @@ public class Program
                             Console.ReadKey();
                             break;
                         case 1:
-                            Display.ExecuteTaskMenu(valera, goWork, lookNature, chillHouse, goBar, drinkWithMarginals, singInMetro, sleep);
+                            string filepath = Display.LoadParametresAction();
+                            Display.ExecuteTaskMenu(valera, goWork, lookNature, chillHouse, goBar, drinkWithMarginals, singInMetro, sleep, filepath);
+                            
                             break;
+
                         case 2:
                             valera.SaveToFile(filePath);
                             Console.WriteLine("Персонаж Валера сохранён!");
                             Console.ReadKey();
                             break;
                         case 3:
-                            valera = new Valera();
+                            string BaseValera = @"C:\Users\info\source\repos\billiboba\Lab1\Lab2\Models\ParametersValera\BaseParametresValera.json";
+                            valera = Valera.LoadFromFile(BaseValera);
                             Console.WriteLine("Новый персонаж Валера создан!");
                             Console.ReadKey();
                             break;

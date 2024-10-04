@@ -1,14 +1,6 @@
 ﻿using Lab2.Models;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
 using static System.Net.Mime.MediaTypeNames;
 using Image = SixLabors.ImageSharp.Image;
@@ -23,29 +15,9 @@ namespace Lab2.Аppearance
             Console.SetCursorPosition(textPosition, Console.CursorTop);
             Console.WriteLine(line);
         }
-        public static void ViewTasks()
+        public static void ExecuteTaskMenu(Valera valera, IAction goWork, IAction lookNature, IAction chillHouse, IAction goBar, IAction drinkWithMarginals, IAction singInMetro, IAction sleep,string filePath)
         {
-            Console.WriteLine();
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("Возможности Валеры: ");
-
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("Пойти на работу - 1 \nСозерцать природу - 2 \nПить вино и смотреть сериал - 3 \nСходить в бар - 4" +
-                "\nВыпить с маргиналами - 5 \nПеть в метро - 6 \nСпать - 7 \nВернуться назад - 8");
-        }
-        public static void ViewMenu()
-        {
-            Console.ForegroundColor = ConsoleColor.Blue;
-            Console.Clear();
-            Centre("1. Просмотреть параметры Валеры");
-            Centre("2. Выполнить событие");
-            Centre("3. Сохранить состояние");
-            Centre("4. Создать нового персонажа");
-            Centre("5. Выйти из игры");
-        }
-        public static void ExecuteTaskMenu(Valera valera, IAction goWork, IAction lookNature, IAction chillHouse, IAction goBar, IAction drinkWithMarginals, IAction singInMetro, IAction sleep)
-        {
-            string filePath = @"C:\Users\info\source\repos\billiboba\Lab1\Lab2\PossibleActions\JsonParametresForActions\ParametresForActions.json";
+            
             LoadAction loadParameters = new LoadAction();
             string[] taskMenuOptions = { "Пойти на работу",
                                  "Созерцать природу",
@@ -135,7 +107,7 @@ namespace Lab2.Аppearance
                         Centre("  " + taskMenuOptions[i]);
                     }
                 }
-
+                DisplayValeraParameters(valera);
                 ConsoleKeyInfo keyInfo = Console.ReadKey(true);
 
                 switch (keyInfo.Key)
@@ -153,25 +125,25 @@ namespace Lab2.Аppearance
                         switch (selectedTaskOption)
                         {
                             case 0:
-                                goWork.PerformAction(valera);
+                                goWork.PerformAction(valera, filePath);
                                 break;
                             case 1:
-                                lookNature.PerformAction(valera);
+                                lookNature.PerformAction(valera,filePath);
                                 break;
                             case 2:
-                                chillHouse.PerformAction(valera);
+                                chillHouse.PerformAction(valera, filePath);
                                 break;
                             case 3:
-                                goBar.PerformAction(valera);
+                                goBar.PerformAction(valera, filePath);
                                 break;
                             case 4:
-                                drinkWithMarginals.PerformAction(valera);
+                                drinkWithMarginals.PerformAction(valera,filePath);
                                 break;
                             case 5:
-                                singInMetro.PerformAction(valera);
+                                singInMetro.PerformAction(valera,filePath);
                                 break;
                             case 6:
-                                sleep.PerformAction(valera);
+                                sleep.PerformAction(valera, filePath);
                                 break;
                             case 7:
                                 runningTask2 = false;
@@ -184,6 +156,99 @@ namespace Lab2.Аppearance
 
             } while (runningTask2);
         }
+        public static void DisplayValeraParameters(Valera valera)
+        {
+            int cursorTop = 0;
+
+            Console.SetCursorPosition(0, cursorTop++);
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write("Параметры Валеры:");
+
+            Console.SetCursorPosition(0, cursorTop++);
+            Console.Write($"Здоровье: {valera.Health}");
+
+            Console.SetCursorPosition(0, cursorTop++);
+            Console.Write($"Мана: {valera.Mana}");
+
+            Console.SetCursorPosition(0, cursorTop++);
+            Console.Write($"Жизнерадостность: {valera.Mood}");
+
+            Console.SetCursorPosition(0, cursorTop++);
+            Console.Write($"Усталость: {valera.Fatigue}");
+
+            Console.SetCursorPosition(0, cursorTop++);
+            Console.Write($"Деньги: {valera.Money}");
+
+            Console.ResetColor();
+        }
+        public static string LoadParametresAction()
+        {
+            string directoryPath = @"C:\Users\info\source\repos\billiboba\Lab1\Lab2\PossibleActions\JsonParametresForActions";
+            string[] files = Directory.GetFiles(directoryPath, "*.json");
+
+            if (files.Length == 0)
+            {
+                Console.WriteLine("Файлы не найдены в директории.");
+                Console.ReadKey();
+                return null;
+            }
+
+            int selectedFileIndex = 0;
+            bool selecting = true;
+
+            while (selecting)
+            {
+                Console.Clear();
+                Console.WriteLine("Выберите файл для загрузки параметров событий:");
+
+                for (int i = 0; i < files.Length; i++)
+                {
+                    string fileName = Path.GetFileName(files[i]);
+                    if (i == selectedFileIndex)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Display.Centre("> " + fileName);
+                        Console.ResetColor();
+                    }
+                    else
+                    {
+                        Display.Centre("  " + fileName);
+                    }
+                }
+
+                ConsoleKeyInfo keyInfo = Console.ReadKey(true);
+
+                switch (keyInfo.Key)
+                {
+                    case ConsoleKey.UpArrow:
+                        if (selectedFileIndex > 0)
+                            selectedFileIndex--;
+                        break;
+                    case ConsoleKey.DownArrow:
+                        if (selectedFileIndex < files.Length - 1)
+                            selectedFileIndex++;
+                        break;
+                    case ConsoleKey.Enter:
+                        string selectedFilePath = files[selectedFileIndex];
+                        if (selectedFilePath == null)
+                        {
+                            Console.WriteLine("Ошибка при загрузке файла.");
+                        }
+                        else
+                        {
+                            Console.Clear();
+                            Console.WriteLine("Успешная загрузка параметров событий.");
+                            Console.ReadKey();
+                            return selectedFilePath;
+                        }
+                        break;
+                    case ConsoleKey.Escape:
+                        selecting = false;
+                        break;
+                }
+            }
+            return null;
+        }
         public static void SelectAndLoadValera(ref Valera valera)
         {
             string directoryPath = @"C:\Users\info\source\repos\billiboba\Lab1\Lab2\Models\ParametersValera";
@@ -195,7 +260,7 @@ namespace Lab2.Аppearance
                 Console.ReadKey();
                 return;
             }
-            
+
             int selectedFileIndex = 0;
             bool selecting = true;
 
@@ -250,7 +315,7 @@ namespace Lab2.Аppearance
                         Console.ReadKey();
                         selecting = false;
                         break;
-                    case ConsoleKey.Escape: 
+                    case ConsoleKey.Escape:
                         selecting = false;
                         break;
                 }
@@ -287,5 +352,6 @@ namespace Lab2.Аppearance
                 }
             }
         }
+
     }
 }

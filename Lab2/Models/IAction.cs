@@ -8,6 +8,6 @@ namespace Lab2.Models
 {
     public interface IAction
     {
-        void PerformAction(Valera valera);
+        void PerformAction(Valera valera,string filePath);
     }
 }

@@ -10,9 +10,8 @@ namespace Lab2.PossibleActions
 {
     public class DrinkWithMarginals : IAction
     {
-        public void PerformAction(Valera valera)
+        public void PerformAction(Valera valera, string filePath)
         {
-            string filePath = @"C:\Users\info\source\repos\billiboba\Lab1\Lab2\PossibleActions\JsonParametresForActions\ParametresForActions.json";
             LoadAction loadParameters = new LoadAction();
             ActionParameters parameters = loadParameters.LoadActionParameters(filePath, "DrinkWithMarginals");
             if (parameters == null)
@@ -33,17 +32,18 @@ namespace Lab2.PossibleActions
             {
                 Console.WriteLine("Нельзя идти пить с маргиналами, будет сильная усталость!");
             }
-            else if (valera.Money - parameters.MoneyChange < 0)
+            else if (valera.Money + parameters.MoneyChange < valera.MinMoney)
             {
                 Console.WriteLine("Нельзя идти пить с маргиналами, у тебя не будет денег!");
             }
             else if (ok == true)
             {
                 valera.Mood += parameters.MoodChange;
-                valera.Health -= parameters.HealthChange;
+                valera.Health += parameters.HealthChange;
                 valera.Mana += parameters.ManaChange;
                 valera.Fatigue += parameters.FatigueChange;
-                valera.Money -= parameters.MoneyChange;
+                valera.Money += parameters.MoneyChange;
+                valera.Validate();
                 Console.WriteLine("Я выпил с маргиналами!");
                 string imagePath = @"C:\Users\info\Desktop\маргиналы.jpg";
 

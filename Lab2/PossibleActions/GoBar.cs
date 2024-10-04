@@ -5,9 +5,8 @@ namespace Lab2.PossibleActions
 {
     public class GoBar : IAction
     {
-        public void PerformAction(Valera valera)
+        public void PerformAction(Valera valera, string filePath)
         {
-            string filePath = @"C:\Users\info\source\repos\billiboba\Lab1\Lab2\PossibleActions\JsonParametresForActions\ParametresForActions.json";
             LoadAction loadParameters = new LoadAction();
             ActionParameters parameters = loadParameters.LoadActionParameters(filePath, "GoBar");
             if (parameters == null)
@@ -20,15 +19,15 @@ namespace Lab2.PossibleActions
             {
                 Console.WriteLine("Нельзя идти в бар, будешь слишком пьян!");
             }
-            else if (valera.Fatigue + parameters.FatigueChange > valera.MaxFatigue)
+            if (valera.Fatigue + parameters.FatigueChange > valera.MaxFatigue)
             {
                 Console.WriteLine("Я устал, надо отдохнуть!");
             }
-            else if (valera.Health - parameters.HealthChange < valera.MinHealth)
+            if (valera.Health - parameters.HealthChange < valera.MinHealth)
             {
                 Console.WriteLine("Нельзя идти в бар, будет отрицательное здоровье!");
             }
-            else if (valera.Money - parameters.MoneyChange < 0)
+            if (valera.Money + parameters.MoneyChange < valera.MinMoney)
             {
                 Console.WriteLine("Нельзя идти в бар, у тебя не будет денег!");
             }
@@ -36,8 +35,9 @@ namespace Lab2.PossibleActions
                 valera.Mood += parameters.MoodChange;
                 valera.Mana += parameters.ManaChange;
                 valera.Fatigue += parameters.FatigueChange;
-                valera.Health -= parameters.HealthChange;
-                valera.Money -= parameters.MoneyChange;
+                valera.Health += parameters.HealthChange;
+                valera.Money += parameters.MoneyChange;
+                valera.Validate();
                 Console.WriteLine("Я сходил в бар!");
                 string imagePath = @"C:\Users\info\Desktop\drinking-beer.jpg";
 

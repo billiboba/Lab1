@@ -4,9 +4,8 @@ namespace Lab2.PossibleActions
 {
     public class LookNature : IAction
     {
-        public void PerformAction(Valera valera)
+        public void PerformAction(Valera valera, string filePath)
         {
-            string filePath = @"C:\Users\info\source\repos\billiboba\Lab1\Lab2\PossibleActions\JsonParametresForActions\ParametresForActions.json";
             LoadAction loadParameters = new LoadAction();
             ActionParameters parameters = loadParameters.LoadActionParameters(filePath, "LookNature");
             if (parameters == null)
@@ -22,8 +21,9 @@ namespace Lab2.PossibleActions
             else if (ok == true)
             {
                 valera.Mood += parameters.MoodChange;
-                valera.Mana -= parameters.ManaChange;
+                valera.Mana += parameters.ManaChange;
                 valera.Fatigue += parameters.FatigueChange;
+                valera.Validate();
                 Console.WriteLine("Валера пошёл созерцать природу!");
             }
             

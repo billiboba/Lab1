@@ -9,9 +9,8 @@ namespace Lab2.PossibleActions
 {
     public class Sleep : IAction
     {
-        public void PerformAction(Valera valera)
+        public void PerformAction(Valera valera, string filePath)
         {
-            string filePath = @"C:\Users\info\source\repos\billiboba\Lab1\Lab2\PossibleActions\JsonParametresForActions\ParametresForActions.json";
             LoadAction loadParameters = new LoadAction();
             ActionParameters parameters = loadParameters.LoadActionParameters(filePath, "Sleep");
             if (parameters == null)
@@ -30,8 +29,9 @@ namespace Lab2.PossibleActions
                 {
                     valera.Mood -= parameters.MoodChange;
                 }
-                valera.Mana -= parameters.ManaChange;
-                valera.Fatigue -= parameters.FatigueChange;
+                valera.Mana += parameters.ManaChange;
+                valera.Fatigue += parameters.FatigueChange;
+                valera.Validate();
                 Console.WriteLine("Ты выспался!");
             }
             
