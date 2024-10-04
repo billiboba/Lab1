@@ -32,9 +32,7 @@ namespace Lab2.Models
             Mood = Math.Clamp(Mood, MinMood, MaxMood);
             Fatigue = Math.Clamp(Fatigue, MinFatigue, MaxFatigue);
         }
-        public Valera()
-        {
-        }
+        public Valera(){}
 
         public void ViewParametres()
         {

@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Lab2.Models;
+﻿using Lab2.Models;
+using Lab2.Аppearance;
 
 namespace Lab2.PossibleActions
 {
@@ -11,7 +7,7 @@ namespace Lab2.PossibleActions
     {
         public void PerformAction(Valera valera)
         {
-            string filePath = @"D:\\VisualProects\\Lab1\\Lab2\\PossibleActions\\JsonParametresForActions\\ParametresForActions.json";
+            string filePath = @"C:\Users\info\source\repos\billiboba\Lab1\Lab2\PossibleActions\JsonParametresForActions\ParametresForActions.json";
             LoadAction loadParameters = new LoadAction();
             ActionParameters parameters = loadParameters.LoadActionParameters(filePath, "GoBar");
             if (parameters == null)
@@ -36,13 +32,23 @@ namespace Lab2.PossibleActions
             {
                 Console.WriteLine("Нельзя идти в бар, у тебя не будет денег!");
             }
-            else if(ok == true) {
+            else if (ok == true) {
                 valera.Mood += parameters.MoodChange;
                 valera.Mana += parameters.ManaChange;
                 valera.Fatigue += parameters.FatigueChange;
                 valera.Health -= parameters.HealthChange;
                 valera.Money -= parameters.MoneyChange;
                 Console.WriteLine("Я сходил в бар!");
+                string imagePath = @"C:\Users\info\Desktop\drinking-beer.jpg";
+
+                if (File.Exists(imagePath))
+                {
+                    Display.DrawImageInConsole(imagePath);
+                }
+                else
+                {
+                    Console.WriteLine("Файл не найден!");
+                }
             }
         }
     }

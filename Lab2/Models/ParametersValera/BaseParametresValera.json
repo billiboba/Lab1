@@ -1,15 +1,15 @@
 {
   "MinHealth": 0,
-  "MaxHealth": 2330,
+  "MaxHealth": 100,
   "MinMana": 0,
   "MaxMana": 100,
   "MinMood": -10,
   "MaxMood": 10,
   "MinFatigue": 0,
   "MaxFatigue": 100,
-  "Health": 935,
+  "Health": 100,
   "Mana": 0,
   "Mood": 10,
-  "Fatigue": 15,
-  "Money": 71
+  "Fatigue": 0,
+  "Money": 70
 }

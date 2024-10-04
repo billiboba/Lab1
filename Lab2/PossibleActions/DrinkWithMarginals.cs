@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Lab2.Models;
+using Lab2.Аppearance;
 
 namespace Lab2.PossibleActions
 {
@@ -11,7 +12,7 @@ namespace Lab2.PossibleActions
     {
         public void PerformAction(Valera valera)
         {
-            string filePath = @"D:\\VisualProects\\Lab1\\Lab2\\PossibleActions\\JsonParametresForActions\\ParametresForActions.json";
+            string filePath = @"C:\Users\info\source\repos\billiboba\Lab1\Lab2\PossibleActions\JsonParametresForActions\ParametresForActions.json";
             LoadAction loadParameters = new LoadAction();
             ActionParameters parameters = loadParameters.LoadActionParameters(filePath, "DrinkWithMarginals");
             if (parameters == null)
@@ -44,6 +45,16 @@ namespace Lab2.PossibleActions
                 valera.Fatigue += parameters.FatigueChange;
                 valera.Money -= parameters.MoneyChange;
                 Console.WriteLine("Я выпил с маргиналами!");
+                string imagePath = @"C:\Users\info\Desktop\маргиналы.jpg";
+
+                if (File.Exists(imagePath))
+                {
+                    Display.DrawImageInConsole(imagePath);
+                }
+                else
+                {
+                    Console.WriteLine("Файл не найден!");
+                }
             }
             
         }

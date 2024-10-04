@@ -20,7 +20,7 @@ namespace Lab2.Models
                     return allParameters[actionName];
                 }
             }
-            return null;
+            return null!;
         }
     }
 }

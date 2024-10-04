@@ -7,7 +7,7 @@ public class Program
 {
     public static void Main()
     {
-        string filePath = @"D:\\VisualProects\\Lab1\\Lab2\\Models\\ParametersValera\\Valera_Par.json";
+        string filePath = @"C:\Users\info\source\repos\billiboba\Lab1\Lab2\Models\ParametersValera\Valera_Par.json";
 
         Valera valera = Valera.LoadFromFile(filePath);
         if (valera != null)
